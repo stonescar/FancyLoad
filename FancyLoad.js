@@ -13,7 +13,8 @@
  * A library that adds animations to HTML elements when scrolled into view
  *
  *
- * @author Steinar Utstrand
+ * @author   Steinar Utstrand
+ * @license  https://github.com/stonescar/FancyLoad/blob/master/LICENSE  MIT License
  */
 
 
