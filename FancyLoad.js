@@ -27,7 +27,7 @@ class FancyLoad {
 		this.options = Object.assign({
 			style: {},
 			duration: .3,
-			timingFunction: "ease",
+			timingFunction: "ease-out",
 			delay: 100,
 			windowMinWidth: 1024,
 			windowMaxWidth: 99999,
