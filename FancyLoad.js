@@ -37,7 +37,11 @@ class FancyLoad {
 		this.initialStyles = Array.from(elements).map(element => {
 			let styles = {};
 			Object.keys(this.options.style).forEach(key => {
-				styles[key] = element.style[key] ? element.style[key] : this.getPropertyDefault(key);
+				if (["scale", "rotate"].includes(key)) {
+					styles.transform = element.style.transform || this.getPropertyDefault("transform");
+				} else {
+					styles[key] = element.style[key] || this.getPropertyDefault(key);
+				}
 			});
 			styles.position = element.style.position;
 			styles.transition = element.style.transition;
@@ -73,8 +77,14 @@ class FancyLoad {
 			if (element.style.position != "absolute") element.style.position = "relative";
 
 			Object.keys(this.options.style).forEach(key => {
-				element.style[key] = this.options.style[key];
+				if (!["scale", "rotate"].includes(key)) element.style[key] = this.options.style[key];
 			});
+
+			const transform = [];
+			if (this.options.style.scale) transform.push(`scale(${this.options.style.scale})`);
+			if (this.options.style.rotate) transform.push(`rotate(${this.options.style.rotate}deg)`);
+
+			if (transform) element.style.transform = transform.join(" ");
 
 			element.style.transition = `all ${this.options.duration}s ${this.options.timingFunction}`;
 		});
@@ -92,7 +102,11 @@ class FancyLoad {
 			for (let i = 0; i < _this.elements.length; i++) {
 				window.setTimeout(() => {
 					Object.keys(_this.options.style).forEach(key => {
-						_this.elements[i].style[key] = _this.initialStyles[i][key];
+						if (["scale", "rotate"].includes(key)) {
+							_this.elements[i].style.transform = _this.initialStyles[i].transform;
+						} else {
+							_this.elements[i].style[key] = _this.initialStyles[i][key];
+						}
 					});
 				}, _this.options.delay * i)
 
@@ -110,6 +124,5 @@ class FancyLoad {
 		const bottomInView = (this.initialPosition.bottom < (window.scrollY + window.innerHeight));
 
 		return (topInView && bottomInView);
-
 	}
 }
