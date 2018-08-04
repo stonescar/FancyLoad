@@ -22,7 +22,7 @@ class FancyLoad {
 	constructor(elements, options = {style: {top: "100px", opacity: 0}}) {
 		window.fl = this;
 
-		this.elements = elements;
+		this.elements = Array.from(elements);
 
 		this.options = Object.assign({
 			style: {},
@@ -35,7 +35,7 @@ class FancyLoad {
 
 		if (window.innerWidth < this.windowMinWidth || window.innerWidth > this.windowMaxWidth) return;
 
-		this.initialStyles = Array.from(elements).map(element => {
+		this.initialStyles = this.elements.map(element => {
 			let styles = {};
 			Object.keys(this.options.style).forEach(key => {
 				if (["scale", "rotate"].includes(key)) {
