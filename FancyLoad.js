@@ -19,11 +19,34 @@
 
 
 class FancyLoad {
+	/**
+	 * Initialize properties and prepare elements for animation
+	 * 
+	 * @param  {Nodelist} elements List of elements to fancy load together
+	 * @param  {Object} options  Options object
+	 */
 	constructor(elements, options = {style: {top: "100px", opacity: 0}}) {
 		window.fl = this;
 
+		/**
+		 * Array of elements to be fancy loaded
+		 * 
+		 * @type  {Array}
+		 */
 		this.elements = Array.from(elements);
 
+		/**
+		 * Options object
+		 * Settings in provided options object will override defaults
+		 * 
+		 * @type  {Object}
+		 *        @property  {Object}   style           Object of css properties
+		 *        @property  {Number}   duration        Duration of the transition
+		 *        @property  {String}   timingFunction  Transition timing function
+		 *        @property  {Integer}  delay           Delay between the animations
+		 *        @property  {Integer}  windowMinWidth  Minimum window width required to fancy load
+		 *        @property  {Integer}  windowMaxWidth  Maximum window width required to fancy load
+		 */
 		this.options = Object.assign({
 			style: {},
 			duration: .3,
@@ -33,8 +56,17 @@ class FancyLoad {
 			windowMaxWidth: 99999,
 		}, options);
 
+		/**
+		 * Abort if window width is not in required range
+		 */
 		if (window.innerWidth < this.windowMinWidth || window.innerWidth > this.windowMaxWidth) return;
 
+		/**
+		 * Array of initial styles.
+		 * Each object corresponds to the same indexed element in this.loadElements
+		 *
+		 * @type {Array}
+		 */
 		this.initialStyles = this.elements.map(element => {
 			let styles = {};
 			Object.keys(this.options.style).forEach(key => {
@@ -50,6 +82,11 @@ class FancyLoad {
 			return styles;
 		});
 
+		/**
+		 * Object containing the initial position of the elements in the DOM
+		 *
+		 * @type  {Object}
+		 */
 		this.initialPosition = {
 			top: this.elements[0].offsetTop,
 			bottom: this.elements[0].offsetTop + this.elements[0].offsetHeight,
@@ -58,6 +95,13 @@ class FancyLoad {
 		this.setInitialState();
 	}
 
+	/**
+	 * Returns default property value based on property name
+	 *
+	 * @param   {String}  property  CSS property name
+	 *
+	 * @return  {Mixed}             Default value of given property
+	 */
 	getPropertyDefault(property) {
 		switch (property) {
 			case "opacity":
@@ -72,6 +116,9 @@ class FancyLoad {
 		}
 	}
 
+	/**
+	 * Sets the initial state of each element and adds scroll event listeners
+	 */
 	setInitialState() {
 		this.elements.forEach(element => {
 			element.style.transition = "";
@@ -97,6 +144,9 @@ class FancyLoad {
 		}
 	}
 
+	/**
+	 * Sets elements back to their original state and removes event listener
+	 */
 	loadElements() {
 		const _this = window.fl;
 		if (_this.elementInView()) {
@@ -120,6 +170,11 @@ class FancyLoad {
 		}
 	}
 
+	/**
+	 * Helper function to see if the elements are in window view or not
+	 *
+	 * @return  {Boolean}  Returns true if elements are in window view
+	 */
 	elementInView() {
 		const topInView = (this.initialPosition.top > window.scrollY);
 		const bottomInView = (this.initialPosition.bottom < (window.scrollY + window.innerHeight));
