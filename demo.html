@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FancyLoad demo</title>
+
+	<link rel="stylesheet" href="demo.css">
+	<script type="text/javascript" src="FancyLoad.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<h1>FancyLoad demo</h1>
+		</header>
+
+		<section>
+			<h2>Without FancyLoad</h2>
+			<p>For reference, this is how the elements look without FancyLoad</p>
+
+			<pre><div class="elements" id="plain">
+	<div class="element">1</div>
+	<div class="element">2</div>
+	<div class="element">3</div>
+	<div class="element">4</div>
+	<div class="element">5</div>
+	<div class="element">6</div>
+</div></pre>
+
+			<div class="elements">
+				<div class="element">1</div>
+				<div class="element">2</div>
+				<div class="element">3</div>
+				<div class="element">4</div>
+				<div class="element">5</div>
+				<div class="element">6</div>
+			</div>
+		</section>
+
+		<hr>
+
+		<section>
+			<h2>Default settings</h2>
+			<p>By default the style object is set to <code>{top: "100px", opacity: 0}</code></p>
+
+			<pre><div class="elements" id="defaults">
+	<div class="element">1</div>
+	<div class="element">2</div>
+	<div class="element">3</div>
+	<div class="element">4</div>
+	<div class="element">5</div>
+	<div class="element">6</div>
+</div>
+
+&lt;script>
+	const elements = document.querySelectorAll("#defaults .element");
+	new FancyLoad(elements);
+&lt;/script></pre>
+			
+			<div class="elements" id="defaults">
+				<div class="element">1</div>
+				<div class="element">2</div>
+				<div class="element">3</div>
+				<div class="element">4</div>
+				<div class="element">5</div>
+				<div class="element">6</div>
+			</div>
+		</section>
+
+		<hr>
+
+		<section>
+			<h2>Zoom in</h2>
+			<p>Use the <code>scale</code> property to create a zoom effect. <code>scale: .5</code> make the element zoom from half size. It is recommended to combine this with <code>opacity: 0</code></p>
+			<pre>const options = {
+	style: {
+		scale: .5,
+		opacity: 0,
+	}
+}
+new FancyLoad(elements, options);</pre>
+			<div class="elements" id="zoom">
+				<div class="element">1</div>
+				<div class="element">2</div>
+				<div class="element">3</div>
+				<div class="element">4</div>
+				<div class="element">5</div>
+				<div class="element">6</div>
+			</div>
+		</section>
+
+		<hr>
+
+		<section>
+			<h2>Spin</h2>
+			<p>Use the <code>rotate</code> property to spin the elements. Enter the amount of degrees to spin. Positiv numbers spin the elements counter clockwise and negative spin them clockwise</p>
+
+			<div class="elements" id="spin">
+				<div class="element">1</div>
+				<div class="element">2</div>
+				<div class="element">3</div>
+				<div class="element">4</div>
+				<div class="element">5</div>
+				<div class="element">6</div>
+			</div>
+		</section>
+
+	</div>
+
+	<script>
+		// Escape HTML-tags inside <pre> and <code> tags
+		const pre = document.querySelectorAll("pre, code");
+		pre.forEach(tag => {
+			tag.innerHTML = tag.innerHTML
+				.replace(new RegExp("<", "g"), "&lt;")
+				.replace(new RegExp(">", "g"), "&gt;")
+				.replace(new RegExp("\t", "g"), "    ");
+		});
+
+
+		// Default
+		const defaults = document.querySelectorAll("#defaults .element");
+		new FancyLoad(defaults);
+
+		// Zoom
+		const zoom = document.querySelectorAll("#zoom .element");
+		new FancyLoad(zoom, {
+			style: {
+				scale: .5,
+				opacity: 0,
+			},
+		});
+
+		// Spin
+		const spin = document.querySelectorAll("#spin .element");
+		new FancyLoad(spin, {
+			style: {
+				rotate: -270,
+			},
+		});
+	</script>
+	
+</body>
+</html>
