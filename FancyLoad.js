@@ -1,19 +1,20 @@
 /**
- *  oooooooooooo                                             ooooo                                   .o
- *	`888'     `8                                             `888'                                 "888
- *	 888          .oooo.   ooo. .oo.    .ooooo.  oooo    ooo  888          .ooooo.   .oooo.    .oooo888
- *	 888oooo8    `P  )88b  `888P"Y88b  d88' `"Y8  `88.  .8'   888         d88' `88b `P  )88b  d88' `888
- *	 888    "     .oP"888   888   888  888         `88..8'    888         888   888  .oP"888  888   888
- *	 888         d8(  888   888   888  888   .o8    `888'     888       o 888   888 d8(  888  888   888
- *	o888o        `Y888""8o o888o o888o `Y8bod8P'     .8'     o888ooooood8 `Y8bod8P' `Y888""8o `Y8bod88P"
- *	                                             .o..P'
- *	                                             `Y8P'
+ *  oooooooooooo                                             ooooo                                  .o8
+ *  `888'     `8                                             `888'                                 "888
+ *   888          .oooo.   ooo. .oo.    .ooooo.  oooo    ooo  888          .ooooo.   .oooo.    .oooo888
+ *   888oooo8    `P  )88b  `888P"Y88b  d88' `"Y8  `88.  .8'   888         d88' `88b `P  )88b  d88' `888
+ *   888    "     .oP"888   888   888  888         `88..8'    888         888   888  .oP"888  888   888
+ *   888         d8(  888   888   888  888   .o8    `888'     888       o 888   888 d8(  888  888   888
+ *  o888o        `Y888""8o o888o o888o `Y8bod8P'     .8'     o888ooooood8 `Y8bod8P' `Y888""8o `Y8bod88P"
+ *                                               .o..P'
+ *                                               `Y8P'
  *
  *
  * A library that adds animations to HTML elements when scrolled into view
  *
  *
  * @author   Steinar Utstrand
+ * @version  1.0.0
  * @license  https://github.com/stonescar/FancyLoad/blob/master/LICENSE  MIT License
  */
 
@@ -61,7 +62,7 @@ class FancyLoad {
 
 		/**
 		 * Array of initial styles.
-		 * Each object corresponds to the same indexed element in this.loadElements
+		 * Each object corresponds to the same indexed element in this.elements
 		 *
 		 * @type {Array}
 		 */
@@ -69,11 +70,13 @@ class FancyLoad {
 			let styles = {};
 			Object.keys(this.options.style).forEach(key => {
 				if (["scale", "rotate"].includes(key)) {
-					styles.transform = this.getStyle(element, "transform") || this.getPropertyDefault("transform");
+					styles.transform = this.getStyle(element, "transform")
+						|| this.getPropertyDefault("transform");
 				} else {
 					styles[key] = this.getStyle(element, key) || this.getPropertyDefault(key);
 				}
 			});
+
 			styles.position = this.getStyle(element, "position");
 			styles.transition = this.getStyle(element, "transition");
 
