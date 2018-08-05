@@ -191,6 +191,8 @@ class FancyLoad {
 	 * @return  {Mixed}             CSS value of given property
 	 */
 	getStyle(element, property) {
-		return window.getComputedStyle(element, null)[property] || element.style[property];
+		const val = window.getComputedStyle(element, null)[property] || element.style[property];
+		if (["top", "left", "right", "bottom"].includes(property) && val == "auto") return 0;
+		return val;
 	}
 }
