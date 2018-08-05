@@ -69,13 +69,13 @@ class FancyLoad {
 			let styles = {};
 			Object.keys(this.options.style).forEach(key => {
 				if (["scale", "rotate"].includes(key)) {
-					styles.transform = element.style.transform || this.getPropertyDefault("transform");
+					styles.transform = this.getStyle(element, "transform") || this.getPropertyDefault("transform");
 				} else {
-					styles[key] = element.style[key] || this.getPropertyDefault(key);
+					styles[key] = this.getStyle(element, key) || this.getPropertyDefault(key);
 				}
 			});
-			styles.position = element.style.position;
-			styles.transition = element.style.transition;
+			styles.position = this.getStyle(element, "position");
+			styles.transition = this.getStyle(element, "transition");
 
 			return styles;
 		});
@@ -177,5 +177,17 @@ class FancyLoad {
 		const bottomInView = (this.initialPosition.bottom < (window.scrollY + window.innerHeight));
 
 		return (topInView && bottomInView);
+	}
+
+	/**
+	 * Helper function to get a css property value from an element
+	 *
+	 * @param   {Element}  element  Element to get style from
+	 * @param   {String}  property  The CSS property to get value of
+	 *
+	 * @return  {Mixed}             CSS value of given property
+	 */
+	getStyle(element, property) {
+		return window.getComputedStyle(element, null)[property] || element.style[property];
 	}
 }
