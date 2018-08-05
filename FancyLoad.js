@@ -22,12 +22,10 @@ class FancyLoad {
 	/**
 	 * Initialize properties and prepare elements for animation
 	 * 
-	 * @param  {Nodelist} elements List of elements to fancy load together
-	 * @param  {Object} options  Options object
+	 * @param  {Nodelist}  elements  List of elements to fancy load together
+	 * @param  {Object}    options   Options object
 	 */
 	constructor(elements, options = {style: {top: "100px", opacity: 0}}) {
-		window.fl = this;
-
 		/**
 		 * Array of elements to be fancy loaded
 		 * 
@@ -138,9 +136,9 @@ class FancyLoad {
 		});
 
 		if (this.elementInView()) {
-			window.setTimeout(this.loadElements, this.options.delay * 2);
+			window.setTimeout(this.loadElements.bind(this), this.options.delay * 2);
 		} else {
-			window.addEventListener("scroll", this.loadElements);
+			window.addEventListener("scroll", this.loadElements.bind(this));
 		}
 	}
 
@@ -148,25 +146,24 @@ class FancyLoad {
 	 * Sets elements back to their original state and removes event listener
 	 */
 	loadElements() {
-		const _this = window.fl;
-		if (_this.elementInView()) {
-			for (let i = 0; i < _this.elements.length; i++) {
+		if (this.elementInView()) {
+			for (let i = 0; i < this.elements.length; i++) {
 				window.setTimeout(() => {
-					Object.keys(_this.options.style).forEach(key => {
+					Object.keys(this.options.style).forEach(key => {
 						if (["scale", "rotate"].includes(key)) {
-							_this.elements[i].style.transform = _this.initialStyles[i].transform;
+							this.elements[i].style.transform = this.initialStyles[i].transform;
 						} else {
-							_this.elements[i].style[key] = _this.initialStyles[i][key];
+							this.elements[i].style[key] = this.initialStyles[i][key];
 						}
 					});
-				}, _this.options.delay * i)
+				}, this.options.delay * i)
 
 				window.setTimeout(() => {
-					_this.elements[i].style.transition = _this.initialStyles.transition;
-					_this.elements[i].style.position = _this.initialStyles.position;
-				}, _this.options.delay * _this.elements.length);
+					this.elements[i].style.transition = this.initialStyles.transition;
+					this.elements[i].style.position = this.initialStyles.position;
+				}, this.options.delay * this.elements.length);
 			}
-			window.removeEventListener("scroll", _this.loadElements);
+			window.removeEventListener("scroll", this.loadElements);
 		}
 	}
 
